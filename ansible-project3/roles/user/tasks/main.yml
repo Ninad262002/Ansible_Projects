@@ -1,0 +1,15 @@
+---
+- name: Create deploy user
+  user:
+    name: deployuser
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+    state: present
+
+- name: Allow deployuser passwordless sudo
+  lineinfile:
+    path: /etc/sudoers.d/deployuser
+    line: 'deployuser ALL=(ALL) NOPASSWD:ALL'
+    create: yes
+    validate: 'visudo -cf %s'

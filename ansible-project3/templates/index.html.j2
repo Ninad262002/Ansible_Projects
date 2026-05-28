@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Piece — The Grand Line</title>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B;
+    --gold: #D4A017;
+    --navy: #0D1B2A;
+    --ocean: #1A3A5C;
+    --sand: #F5E6C8;
+    --parchment: #F0DEB4;
+    --ink: #1C1008;
+    --mist: #8BA7C7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--navy);
+    color: var(--sand);
+    font-family: 'Crimson Pro', serif;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23D4A017'/%3E%3C/svg%3E") 10 10, crosshair;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .hero-ocean {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #060D14 0%, #0D2B4A 40%, #1A4F7A 70%, #1D6B8F 100%);
+  }
+
+  .waves {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 220px;
+  }
+
+  .waves svg { width: 100%; height: 100%; }
+
+  .stars {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    bottom: 40%;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.2; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+
+  .jolly-roger {
+    font-size: clamp(5rem, 12vw, 9rem);
+    line-height: 1;
+    margin-bottom: 1rem;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(212,160,23,0.5));
+    position: relative; z-index: 2;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-18px) rotate(2deg); }
+  }
+
+  .hero-title {
+    font-family: 'Pirata One', cursive;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-shadow: 3px 3px 0 #7B4A00, 6px 6px 0 rgba(0,0,0,0.4);
+    position: relative; z-index: 2;
+    animation: titleIn 1.2s ease-out both;
+  }
+
+  @keyframes titleIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.92); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--mist);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    margin-top: 1rem;
+    position: relative; z-index: 2;
+    animation: titleIn 1.2s 0.3s ease-out both;
+  }
+
+  .hero-tagline {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-style: italic;
+    color: var(--parchment);
+    margin-top: 2.5rem;
+    max-width: 600px;
+    line-height: 1.6;
+    position: relative; z-index: 2;
+    animation: titleIn 1.2s 0.6s ease-out both;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 80px;
+    z-index: 3;
+    animation: bounce 2s infinite;
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+
+  .scroll-hint span { font-size: 1.4rem; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--gold);
+    font-family: 'Pirata One', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 0.5em;
+    opacity: 0.5;
+  }
+
+  /* ── SECTION TITLES ── */
+  section { padding: 5rem 2rem; position: relative; }
+
+  .section-title {
+    font-family: 'Pirata One', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0 #7B4A00;
+  }
+
+  .section-sub {
+    text-align: center;
+    color: var(--mist);
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 3.5rem;
+  }
+
+  /* ── CREW CARDS ── */
+  .crew-section { background: #080F18; }
+
+  .crew-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .crew-card {
+    background: linear-gradient(135deg, #0D2540, #0A1C30);
+    border: 1px solid rgba(212,160,23,0.25);
+    border-radius: 4px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+  }
+
+  .crew-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(212,160,23,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .crew-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212,160,23,0.7);
+  }
+
+  .crew-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .crew-name {
+    font-family: 'Pirata One', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+
+  .crew-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--mist);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .crew-quote {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--parchment);
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  .crew-bounty {
+    margin-top: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    background: rgba(192,57,43,0.12);
+    border: 1px solid rgba(192,57,43,0.3);
+    border-radius: 2px;
+    padding: 4px 10px;
+    display: inline-block;
+  }
+
+  /* ── ARC TIMELINE ── */
+  .arcs-section {
+    background: var(--navy);
+    position: relative;
+  }
+
+  .arcs-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(26,74,122,0.3) 0%, transparent 60%),
+                      radial-gradient(circle at 80% 50%, rgba(26,74,122,0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+
+  .arc-item {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .arc-item:nth-child(odd) .arc-content { grid-column: 1; text-align: right; }
+  .arc-item:nth-child(odd) .arc-dot { grid-column: 2; }
+  .arc-item:nth-child(odd) .arc-number { grid-column: 3; text-align: left; }
+
+  .arc-item:nth-child(even) .arc-number { grid-column: 1; text-align: right; }
+  .arc-item:nth-child(even) .arc-dot { grid-column: 2; }
+  .arc-item:nth-child(even) .arc-content { grid-column: 3; text-align: left; }
+
+  .arc-item:nth-child(even) { direction: rtl; }
+  .arc-item:nth-child(even) > * { direction: ltr; }
+
+  .arc-dot {
+    width: 40px; height: 40px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(212,160,23,0.4);
+    flex-shrink: 0;
+    z-index: 1;
+    position: relative;
+  }
+
+  .arc-content {
+    background: rgba(13,27,42,0.7);
+    border: 1px solid rgba(212,160,23,0.15);
+    border-radius: 4px;
+    padding: 1.25rem;
+  }
+
+  .arc-title {
+    font-family: 'Pirata One', cursive;
+    font-size: 1.25rem;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .arc-desc {
+    font-size: 0.92rem;
+    color: var(--mist);
+    line-height: 1.5;
+  }
+
+  .arc-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(212,160,23,0.4);
+    letter-spacing: 0.1em;
+    align-self: center;
+  }
+
+  /* ── DEVIL FRUITS ── */
+  .fruits-section {
+    background: #06101A;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fruits-section::after {
+    content: '';
+    position: absolute; bottom: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 2px solid rgba(212,160,23,0.06);
+    pointer-events: none;
+  }
+
+  .fruits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .fruit-card {
+    border-radius: 4px;
+    padding: 1.75rem;
+    border-left: 3px solid;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .fruit-card:hover { transform: translateX(6px); }
+
+  .fruit-card.paramecia { background: rgba(40,8,50,0.7); border-color: #9B59B6; }
+  .fruit-card.zoan      { background: rgba(8,40,20,0.7); border-color: #27AE60; }
+  .fruit-card.logia     { background: rgba(8,20,50,0.7); border-color: #2980B9; }
+
+  .fruit-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .paramecia .fruit-type { color: #9B59B6; }
+  .zoan .fruit-type      { color: #27AE60; }
+  .logia .fruit-type     { color: #2980B9; }
+
+  .fruit-name {
+    font-family: 'Pirata One', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .fruit-user {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--mist);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+
+  .fruit-desc {
+    font-size: 0.92rem;
+    color: var(--parchment);
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  /* ── QUOTE BANNER ── */
+  .quote-section {
+    background: var(--red);
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .quote-section::before,
+  .quote-section::after {
+    content: '☠';
+    position: absolute;
+    font-size: 15rem;
+    opacity: 0.07;
+    color: #fff;
+    top: 50%; transform: translateY(-50%);
+  }
+
+  .quote-section::before { left: -2rem; }
+  .quote-section::after  { right: -2rem; }
+
+  .big-quote {
+    font-family: 'Pirata One', cursive;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    color: #fff;
+    line-height: 1.2;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    position: relative; z-index: 1;
+  }
+
+  .quote-attr {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+
+  /* ── WORLD MAP SECTION ── */
+  .world-section {
+    background: #080F18;
+    text-align: center;
+  }
+
+  .seas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .sea-card {
+    background: rgba(13,27,42,0.8);
+    border: 1px solid rgba(139,167,199,0.2);
+    border-radius: 4px;
+    padding: 1.5rem 1rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .sea-card:hover {
+    border-color: rgba(212,160,23,0.5);
+    transform: scale(1.04);
+  }
+
+  .sea-icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+
+  .sea-name {
+    font-family: 'Pirata One', cursive;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .sea-desc {
+    font-size: 0.83rem;
+    color: var(--mist);
+    line-height: 1.4;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #03070C;
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(212,160,23,0.15);
+  }
+
+  .footer-skull {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+
+  .footer-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(139,167,199,0.5);
+    letter-spacing: 0.15em;
+    line-height: 1.8;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .timeline::before { display: none; }
+    .arc-item { grid-template-columns: 40px 1fr; }
+    .arc-item:nth-child(odd) .arc-content,
+    .arc-item:nth-child(even) .arc-content { grid-column: 2; text-align: left; }
+    .arc-item:nth-child(odd) .arc-dot,
+    .arc-item:nth-child(even) .arc-dot { grid-column: 1; }
+    .arc-item:nth-child(odd) .arc-number,
+    .arc-item:nth-child(even) .arc-number { display: none; }
+    .arc-item:nth-child(even) { direction: ltr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-ocean"></div>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="jolly-roger">☠️</div>
+  <h1 class="hero-title">One Piece</h1>
+  <p class="hero-sub">The Grand Line Awaits</p>
+  <p class="hero-tagline">"I'm going to be the King of the Pirates!" — An era-defining saga of dreams, freedom, and the will to sail beyond the horizon.</p>
+
+  <div class="scroll-hint">
+    Set Sail
+    <span>↓</span>
+  </div>
+
+  <svg class="waves" viewBox="0 0 1440 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C240,160 480,0 720,80 C960,160 1200,0 1440,80 L1440,220 L0,220 Z" fill="#080F18" opacity="0.9"/>
+    <path d="M0,120 C360,40 720,200 1080,120 C1260,80 1380,140 1440,120 L1440,220 L0,220 Z" fill="#080F18" opacity="0.6"/>
+  </svg>
+</section>
+
+<!-- ── CREW ── -->
+<section class="crew-section">
+  <h2 class="section-title reveal">The Straw Hat Pirates</h2>
+  <p class="section-sub reveal">Crew of the Thousand Sunny</p>
+
+  <div class="crew-grid">
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🎩</span>
+      <div class="crew-name">Monkey D. Luffy</div>
+      <div class="crew-role">Captain</div>
+      <p class="crew-quote">"I don't want to conquer anything. I just think the freest man on the seas is the Pirate King!"</p>
+      <div class="crew-bounty">☠ 3,000,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">⚔️</span>
+      <div class="crew-name">Roronoa Zoro</div>
+      <div class="crew-role">Swordsman · First Mate</div>
+      <p class="crew-quote">"When the world shoves you around, you just gotta stand up and shove back."</p>
+      <div class="crew-bounty">☠ 1,111,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🍊</span>
+      <div class="crew-name">Nami</div>
+      <div class="crew-role">Navigator · Cat Burglar</div>
+      <p class="crew-quote">"I'll draw a map of the entire world — my dream has never changed."</p>
+      <div class="crew-bounty">☠ 366,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🎵</span>
+      <div class="crew-name">Usopp</div>
+      <div class="crew-role">Sniper · God Usopp</div>
+      <p class="crew-quote">"I am the great warrior of the sea, Usopp! ...Probably."</p>
+      <div class="crew-bounty">☠ 500,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🍳</span>
+      <div class="crew-name">Sanji</div>
+      <div class="crew-role">Cook · Black Leg</div>
+      <p class="crew-quote">"All for the dream of finding the All Blue — a sea where all fish of every ocean live."</p>
+      <div class="crew-bounty">☠ 1,032,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🦆</span>
+      <div class="crew-name">Tony Tony Chopper</div>
+      <div class="crew-role">Doctor · Cotton Candy Lover</div>
+      <p class="crew-quote">"I want to be a doctor who can cure any disease!"</p>
+      <div class="crew-bounty">☠ 1,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🌸</span>
+      <div class="crew-name">Nico Robin</div>
+      <div class="crew-role">Archaeologist · Devil Child</div>
+      <p class="crew-quote">"I want to live! Take me out to sea with you!"</p>
+      <div class="crew-bounty">☠ 930,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🤖</span>
+      <div class="crew-name">Franky</div>
+      <div class="crew-role">Shipwright · Cyborg</div>
+      <p class="crew-quote">"A ship is a dream that carries the dreams of those who ride it. SUPER!"</p>
+      <div class="crew-bounty">☠ 394,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">💀</span>
+      <div class="crew-name">Brook</div>
+      <div class="crew-role">Musician · Soul King</div>
+      <p class="crew-quote">"Yohohoho! Even in death, I shall sing for my crewmates!"</p>
+      <div class="crew-bounty">☠ 383,000,000 Berries</div>
+    </div>
+
+    <div class="crew-card reveal">
+      <span class="crew-emoji">🐙</span>
+      <div class="crew-name">Jinbe</div>
+      <div class="crew-role">Helmsman · Knight of the Sea</div>
+      <p class="crew-quote">"Losing focus just when you think you've won is the biggest blunder a warrior can make."</p>
+      <div class="crew-bounty">☠ 1,100,000,000 Berries</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── QUOTE ── -->
+<div class="quote-section">
+  <p class="big-quote reveal">"People's dreams never end!"</p>
+  <p class="quote-attr reveal">— Marshall D. Teach, Whitebeard War</p>
+</div>
+
+<!-- ── ARCS ── -->
+<section class="arcs-section">
+  <h2 class="section-title reveal">Epic Story Arcs</h2>
+  <p class="section-sub reveal">From East Blue to the New World</p>
+
+  <div class="timeline">
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">East Blue Saga</div>
+        <div class="arc-desc">Luffy sets sail and assembles his crew — Zoro, Nami, Usopp, and Sanji — defeating Arlong and setting course for the Grand Line.</div>
+      </div>
+      <div class="arc-dot">⚓</div>
+      <div class="arc-number">ARC I</div>
+    </div>
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">Alabasta Arc</div>
+        <div class="arc-desc">The crew battles the Shichibukai Crocodile in the desert kingdom and saves Princess Vivi. Robin joins the crew.</div>
+      </div>
+      <div class="arc-dot">🏜️</div>
+      <div class="arc-number">ARC II</div>
+    </div>
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">Enies Lobby</div>
+        <div class="arc-desc">Luffy declares war on the World Government to rescue Robin. "I want to live!" — one of anime's most beloved moments.</div>
+      </div>
+      <div class="arc-dot">⚖️</div>
+      <div class="arc-number">ARC III</div>
+    </div>
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">Marineford War</div>
+        <div class="arc-desc">The war that shook the world. Ace's death at the hands of Akainu reshapes the course of history — and Luffy.</div>
+      </div>
+      <div class="arc-dot">🔥</div>
+      <div class="arc-number">ARC IV</div>
+    </div>
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">Dressrosa</div>
+        <div class="arc-desc">Donquixote Doflamingo's shadow empire crumbles as Luffy awakes Gear Fourth for the first time.</div>
+      </div>
+      <div class="arc-dot">🎭</div>
+      <div class="arc-number">ARC V</div>
+    </div>
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">Wano Country</div>
+        <div class="arc-desc">The samurai saga. Luffy unlocks Gear Fifth — the Sun God Nika — and defeats Kaido atop Onigashima.</div>
+      </div>
+      <div class="arc-dot">⛩️</div>
+      <div class="arc-number">ARC VI</div>
+    </div>
+
+    <div class="arc-item reveal">
+      <div class="arc-content">
+        <div class="arc-title">Egghead Arc</div>
+        <div class="arc-desc">The island of the future. Dr. Vegapunk's secrets threaten to overturn the entire World Government — and one video changes everything.</div>
+      </div>
+      <div class="arc-dot">🔬</div>
+      <div class="arc-number">ARC VII</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── DEVIL FRUITS ── -->
+<section class="fruits-section">
+  <h2 class="section-title reveal">Devil Fruits</h2>
+  <p class="section-sub reveal">Cursed power at the cost of the sea</p>
+
+  <div class="fruits-grid">
+
+    <div class="fruit-card paramecia reveal">
+      <div class="fruit-type">Paramecia</div>
+      <div class="fruit-name">Gomu Gomu no Mi</div>
+      <div class="fruit-user">User: Monkey D. Luffy</div>
+      <p class="fruit-desc">Grants the body properties of rubber — now revealed to be the legendary Hito Hito no Mi, Model: Nika, awakening the Sun God.</p>
+    </div>
+
+    <div class="fruit-card zoan reveal">
+      <div class="fruit-type">Mythical Zoan</div>
+      <div class="fruit-name">Uo Uo no Mi, Model: Seiryu</div>
+      <div class="fruit-user">User: Kaido of the Beasts</div>
+      <p class="fruit-desc">Transforms the user into an azure dragon of unimaginable power. Considered the strongest Zoan in history.</p>
+    </div>
+
+    <div class="fruit-card logia reveal">
+      <div class="fruit-type">Logia</div>
+      <div class="fruit-name">Yami Yami no Mi</div>
+      <div class="fruit-user">User: Marshall D. Teach</div>
+      <p class="fruit-desc">The Darkness Fruit — unique among Logia for its ability to nullify other Devil Fruit powers. A one-of-a-kind darkness.</p>
+    </div>
+
+    <div class="fruit-card paramecia reveal">
+      <div class="fruit-type">Paramecia</div>
+      <div class="fruit-name">Ope Ope no Mi</div>
+      <div class="fruit-user">User: Trafalgar D. Law</div>
+      <p class="fruit-desc">Creates a Room of absolute spatial control. Called the Ultimate Devil Fruit for the power to grant immortality — at the cost of the user's life.</p>
+    </div>
+
+    <div class="fruit-card logia reveal">
+      <div class="fruit-type">Logia</div>
+      <div class="fruit-name">Magu Magu no Mi</div>
+      <div class="fruit-user">User: Sakazuki (Akainu)</div>
+      <p class="fruit-desc">Magma manipulation with the highest attack power of any Logia — even overcoming the Hie Hie no Mi's ice in raw heat.</p>
+    </div>
+
+    <div class="fruit-card zoan reveal">
+      <div class="fruit-type">Mythical Zoan</div>
+      <div class="fruit-name">Tori Tori no Mi, Model: Phoenix</div>
+      <div class="fruit-user">User: Marco the Phoenix</div>
+      <p class="fruit-desc">Regenerative blue flames that heal any wound. Marco's phoenix form made him Whitebeard's unshakeable right hand.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── WORLD ── -->
+<section class="world-section">
+  <h2 class="section-title reveal">The Four Seas & Beyond</h2>
+  <p class="section-sub reveal">The world of One Piece</p>
+
+  <div class="seas-grid">
+    <div class="sea-card reveal">
+      <span class="sea-icon">🌊</span>
+      <div class="sea-name">East Blue</div>
+      <p class="sea-desc">Weakest of the four seas — birthplace of legends like Luffy, Zoro, and Sanji.</p>
+    </div>
+    <div class="sea-card reveal">
+      <span class="sea-icon">🏔️</span>
+      <div class="sea-name">Grand Line</div>
+      <p class="sea-desc">The most dangerous and unpredictable sea — the road to One Piece runs through here.</p>
+    </div>
+    <div class="sea-card reveal">
+      <span class="sea-icon">❄️</span>
+      <div class="sea-name">New World</div>
+      <p class="sea-desc">The second half of the Grand Line. Where Emperors of the Sea rule and the final battles unfold.</p>
+    </div>
+    <div class="sea-card reveal">
+      <span class="sea-icon">🏛️</span>
+      <div class="sea-name">Mariejois</div>
+      <p class="sea-desc">Holy Land of the World Nobles. The beating — and rotten — heart of the World Government.</p>
+    </div>
+    <div class="sea-card reveal">
+      <span class="sea-icon">🌋</span>
+      <div class="sea-name">Laugh Tale</div>
+      <p class="sea-desc">The final island where the legendary treasure "One Piece" awaits — location known only to Pirate Kings.</p>
+    </div>
+    <div class="sea-card reveal">
+      <span class="sea-icon">⛅</span>
+      <div class="sea-name">Sky Islands</div>
+      <p class="sea-desc">Floating islands above the clouds — including Skypiea, where ancient history was carved in gold.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="footer-skull">☠</span>
+  <p class="footer-text">
+    One Piece — Created by Eiichiro Oda · Published in Weekly Shōnen Jump since 1997<br>
+    A fan tribute. All characters & story © Eiichiro Oda / Shueisha · Toei Animation<br><br>
+    "The One Piece is real."
+  </p>
+</footer>
+
+<script>
+  // Starfield
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${2+Math.random()*3}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.1 + 's';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
+

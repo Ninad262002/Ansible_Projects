@@ -1,0 +1,11 @@
+---
+- name: Configure managed node
+  hosts: webservers
+  become: yes
+
+  roles:
+    - common
+    - user
+    - nginx
+    - ssh_hardening
+    - firewall
